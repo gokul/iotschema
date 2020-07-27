@@ -37,7 +37,19 @@
      </div>
       <div class="form-row">
 	     <label for="node-input-capability"  style="width:40%"><i class="icon-tag"></i> Capability:</label>
-         <input type="text" id="node-input-capability" style="width:50%"/>
+         {{#less_than capability.length 1}}
+            <input type="text" id="node-input-capability" style="width:50%"/>
+		 {{/less_than}}
+         {{#is_equal capability.length 1}}
+            <input type="text" id="node-input-capability" style="width:50%" disabled/>
+         {{/is_equal}}
+         {{#greater_than capability.length 1}}
+             <select id="node-input-capability" style="width:50%">
+             {{#each capability}}
+                <option value="{{this}}">{{this}}</option>
+             {{/each}}
+             </select>
+         {{/greater_than}}
      </div>
      <div class="form-row">
 	     <label for="node-input-foitype"  style="width:40%"><i class="icon-tag"></i> Feature Of Interest Type:</label>
