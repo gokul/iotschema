@@ -12,7 +12,7 @@
         {{/is_not_equal}}
     name: {value:""},
     iptype: {value:"{{raw_name}}"},
-    capability: {value:""},
+    capability: {value:"{{capability}}"},
     foitype: {value:""},
     foi: {value:""},
     operation:{value:""}
@@ -61,9 +61,12 @@
      </div>
 
      {{#IO}}{{#uniqueDataType}}{{#configurations}}
+
+        <legend>{{#remove_namespace ../name}}{{/remove_namespace}}</legend>
+
     <div class="form-row">
     {{#is_equal name "propertyType"}}
-        <label for="node-input-{{name}}"  style="width:40%"><i class="icon-tag"></i> {{#capitalize_first_letter name}}{{/capitalize_first_letter}}:</label>
+        <label for="node-input-{{name}}"  style="width:40%"><i class="icon-tag"></i> {{#capitalize_first_letter name}}{{/capitalize_first_letter}} for {{#remove_namespace ../name}}{{/remove_namespace}}:</label>
         <input type="text" id="node-input-{{name}}" style="width:50%" placeholder="{{type}}" disabled><br/>
     {{/is_equal}}
     {{#is_not_equal name "propertyType"}}
@@ -89,6 +92,7 @@
              {{/is_equal}}
     {{/is_not_equal}}
     </div>
+    </fieldset>
 {{/configurations}}{{/uniqueDataType}}{{/IO}}
      <div class="form-row">
     {{#is_not_equal observable undefined}}
