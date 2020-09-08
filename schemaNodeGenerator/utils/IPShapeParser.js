@@ -1,4 +1,4 @@
-'use strict' 
+'use strict'
 /* 
 IPShapeParser.js:
 ----------------
@@ -58,8 +58,8 @@ function getInteractionPatternNode(shapes){
 				data = [];
 				var ipType = shapes[i]["sh:targetClass"]["@id"];
 				ip["@type"].push(ipType);
-				//ToDo: Add capability context to the interaction pattern
-				//ip["iot:capability"] = .. ;
+				//console.log(shapes[i]);
+				//ip["iot:capability"] = shapes[i]["iot:capability"]["@id"];
 				ip["name"] = ipType.slice(ipType.lastIndexOf(":")+1);
 				var shape = checkNodeType(shapes[i]["@id"]);
 				if(ip["@type"].indexOf("iot:Property") == -1){
@@ -73,14 +73,14 @@ function getInteractionPatternNode(shapes){
 				var shape = checkNodeType(shapes[i]["@id"]);
 				ipdata.push(configAttr);
 			}
-			
+
 		}
 	}
 	output["interaction"] = ip;
 	output["data"] = ipdata;
 	//console.log(JSON.stringify(output));
 	return output;
-	
+
 }
 
 function parseNotNode(shape){
@@ -101,7 +101,7 @@ function parseInNode(shape){
 	//console.log("parseInNode");
 	if(shape["sh:in"]["@list"]){
 		listNodes = parseListNode(shape["sh:in"]["@list"]);
-	}	
+	}
 	return listNodes;
 }
 
@@ -110,7 +110,7 @@ function parseListNode(node){
 	var listNodes = [];
 	for(var k = 0; k < node.length; k++){
 		listNodes.push(node[k]["@id"]);
-	}	
+	}
 	return listNodes;
 }
 
@@ -143,6 +143,9 @@ function checkNodeType(nodeId){
 	if(shape["sh:path"]){
 
 		var path = shape["sh:path"]["@id"];
+		if (path.includes("iot:capability")) {
+			checkCapability(shape);
+		}
 		if(!shape["sh:node"]){
 			if(path.includes("providesOutputData") || path.includes("acceptsInputData") ||
 			   path.includes("writable") || path.includes("observable")){
@@ -160,7 +163,7 @@ function checkNodeType(nodeId){
 			checkDataProperties(shape);
 			checkNodeType(shape["sh:node"]["@id"]);
 		}
-	}		
+	}
 	else if(shape["sh:property"]){
 		//console.log("PropertyNode");
 		nodeType = "PropertyNode";
@@ -174,14 +177,14 @@ function checkNodeType(nodeId){
 		for(var i = 0; i < listNodes.length; i++){
 			checkNodeType(listNodes[i]);
 		}
-	}	
+	}
 	else if(shape["sh:in"]){
 		//console.log("InNode: "+JSON.stringify(shape));
 		nodeType = "InNode";
 		var listNodes = parseInNode(shape);
 		for(var i = 0; i < listNodes.length; i++){
 			checkNodeType(listNodes[i]);
-		}		
+		}
 	}
     else if(shape["sh:not"]){
 		//console.log("NotNode");
@@ -218,6 +221,16 @@ function checkIProperties(shape){
 
 }
 
+function checkCapability(shape) {
+	if (shape["sh:path"]["@id"] == "iot:capability") {
+		var capabilities = [];
+		var temp = shape["sh:node"];
+		for (var i = 0; i < temp["@list"].length; i++) {
+			capabilities.push(temp["@list"][i]["@id"]);
+		}
+		ip["iot:capability"] = capabilities;
+	}
+}
 
 function checkDataProperties(shape){
 
