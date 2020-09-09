@@ -41,7 +41,7 @@
             <input type="text" id="node-input-capability" style="width:50%"/>
 		 {{/less_than}}
          {{#is_equal capability.length 1}}
-            <input type="text" id="node-input-capability" style="width:50%" disabled/>
+            <input type="text" id="node-input-capability" style="width:50%" value="{{capability}} "disabled/>
          {{/is_equal}}
          {{#greater_than capability.length 1}}
              <select id="node-input-capability" style="width:50%">
