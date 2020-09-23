@@ -41,7 +41,7 @@
             <input type="text" id="node-input-capability" style="width:50%"/>
 		 {{/less_than}}
          {{#is_equal capability.length 1}}
-            <input type="text" id="node-input-capability" style="width:50%" value="{{capability}} "disabled/>
+            <input type="text" id="node-input-capability" style="width:50%" value="{{capability}}" disabled/>
          {{/is_equal}}
          {{#greater_than capability.length 1}}
              <select id="node-input-capability" style="width:50%">
@@ -60,40 +60,43 @@
          <input type="text" id="node-input-foi" style="width:50%" placeholder=""/>
      </div>
 
-     {{#IO}}{{#uniqueDataType}}{{#configurations}}
+     {{#IO}}{{#uniqueDataType}}
+        <fieldset>
+            <legend style="font-size:14px;font-weight:bold;color:#555;font-family:"Helvetica Neue",Arial,Helvetica,sans-serif;">{{#remove_namespace name}}{{/remove_namespace}}</legend>
+        {{#configurations}}
 
-        <legend>{{#remove_namespace ../name}}{{/remove_namespace}}</legend>
-
-    <div class="form-row">
-    {{#is_equal name "propertyType"}}
-        <label for="node-input-{{name}}"  style="width:40%"><i class="icon-tag"></i> {{#capitalize_first_letter name}}{{/capitalize_first_letter}} for {{#remove_namespace ../name}}{{/remove_namespace}}:</label>
-        <input type="text" id="node-input-{{name}}" style="width:50%" placeholder="{{type}}" disabled><br/>
-    {{/is_equal}}
-    {{#is_not_equal name "propertyType"}}
-		 <label for="node-input-{{name}}"  style="width:40%"><i class="icon-tag"></i> {{#capitalize_first_letter name}}{{/capitalize_first_letter}}:</label>
-	     {{#is_equal this.elementType "input"}}
-         <input type="text" id="node-input-{{name}}" style="width:50%" placeholder="{{type}}"><br/>
-         {{/is_equal}}
-        {{#is_equal this.elementType "select"}}
-         <select id="node-input-{{name}}" style="width:30%">
-               {{#options}}
-             <option value="{{this}}">{{#remove_namespace this}}{{/remove_namespace}}</option>
-               {{/options}}
-         </select><br/>
-            {{/is_equal}}
-        {{#is_equal this.elementType "checkbox"}}
-            {{#options}}
-          <div class="form-row">
-          <input type="checkbox" id="node-input-{{#remove_namespace this}}{{/remove_namespace}}" style="display: inline-block; width: 5%; vertical-align: top; padding-left: 50px;"/>
-          <label for="node-input-{{#remove_namespace this}}{{/remove_namespace}}"  style="width: auto">{{#remove_namespace this}}{{/remove_namespace}}</label>
-          </div>
-          {{/options}}
-          <br/>
+        <div class="form-row">
+        {{#is_equal name "propertyType"}}
+            <label for="node-input-{{name}}"  style="width:40%"><i class="icon-tag"></i> {{#capitalize_first_letter name}}{{/capitalize_first_letter}}:</label>
+            <input type="text" id="node-input-{{name}}" style="width:50%" placeholder="{{type}}" disabled><br/>
+        {{/is_equal}}
+        {{#is_not_equal name "propertyType"}}
+             <label for="node-input-{{name}}"  style="width:40%"><i class="icon-tag"></i> {{#capitalize_first_letter name}}{{/capitalize_first_letter}}:</label>
+             {{#is_equal this.elementType "input"}}
+             <input type="text" id="node-input-{{name}}" style="width:50%" placeholder="{{type}}"><br/>
              {{/is_equal}}
-    {{/is_not_equal}}
-    </div>
+            {{#is_equal this.elementType "select"}}
+             <select id="node-input-{{name}}" style="width:30%">
+                   {{#options}}
+                 <option value="{{this}}">{{#remove_namespace this}}{{/remove_namespace}}</option>
+                   {{/options}}
+             </select><br/>
+                {{/is_equal}}
+            {{#is_equal this.elementType "checkbox"}}
+                {{#options}}
+              <div class="form-row">
+              <input type="checkbox" id="node-input-{{#remove_namespace this}}{{/remove_namespace}}" style="display: inline-block; width: 5%; vertical-align: top; padding-left: 50px;"/>
+              <label for="node-input-{{#remove_namespace this}}{{/remove_namespace}}"  style="width: auto">{{#remove_namespace this}}{{/remove_namespace}}</label>
+              </div>
+              {{/options}}
+              <br/>
+                 {{/is_equal}}
+        {{/is_not_equal}}
+        </div>
+
+    {{/configurations}}
     </fieldset>
-{{/configurations}}{{/uniqueDataType}}{{/IO}}
+{{/uniqueDataType}}{{/IO}}
      <div class="form-row">
     {{#is_not_equal observable undefined}}
          <label for="node-input-observable"  style="width:40%"><i class="icon-tag"></i> Observable:</label>
@@ -103,8 +106,8 @@
          </select>
          {{/is_not_equal}}
      </div>
-     <hr/>
-     <b>Optional</b><br/>
+     <fieldset>
+            <legend style="font-size:14px;font-weight:bold;color:#555;font-family:"Helvetica Neue",Arial,Helvetica,sans-serif;">Optional</legend>
      <div class="form-row">
 	     <label for="node-input-operation"  style="width:40%"><i class="icon-tag"></i> Operation:</label>
          <select id="node-input-operation" style="width:30%">
@@ -115,6 +118,7 @@
             <option value="observe">Observe</option>
          </select>
      </div>
+     </fieldset>
 </script>
 
 <script type="text/x-red" data-help-name="{{node_name}}">
