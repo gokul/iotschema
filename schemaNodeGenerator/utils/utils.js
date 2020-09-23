@@ -23,6 +23,7 @@ module.exports = {
         dataModel.node_description = "undefined";
         dataModel.repository = "undefined";
         dataModel.license = "undefined";
+        dataModel.capability = intercationNode["iot:capability"];
 
         let nodeIO = [];
         let nodeOutputs = [];
